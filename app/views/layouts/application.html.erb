@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>HotwireCounter</title>
+    <title>Hotwire Counter</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,6 +11,9 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="flex flex-col items-center w-1/2 p-4 mx-auto my-0">
+      <h1 class="mb-4 text-2xl text-bold">Hotwire Counter</h1>
+      <%= yield %>
+    </div>
   </body>
 </html>
