@@ -100,6 +100,9 @@ GEM
       reline (>= 0.3.0)
     jsbundling-rails (1.0.3)
       railties (>= 6.0.0)
+    kredis (1.2.0)
+      activesupport (>= 6.0.0)
+      redis (~> 4.2)
     loofah (2.18.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -218,6 +221,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   jsbundling-rails
+  kredis
   puma (~> 5.0)
   rails (~> 7.0.3)
   redis (~> 4.0)
