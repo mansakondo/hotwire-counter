@@ -1,2 +1,15 @@
-<h1>Counter#show</h1>
-<p>Find me in app/views/counter/show.html.erb</p>
+<%= turbo_stream_from "global:counter" %>
+
+<div class="flex flex-col text-lg gap-2">
+  <p>
+    <span>Count:</span>
+    <span id="global-count">
+      <%= count %>
+    </span>
+  </p>
+
+  <div class="flex gap-2">
+    <%= button_to "+", increment_path, class: "px-8 py-4 text-white bg-black rounded" %>
+    <%= button_to "-", decrement_path, class: "px-8 py-4 text-white bg-black rounded" %>
+  </div>
+</div>
