@@ -11,9 +11,6 @@ processes = []
     NODE_VERSION = "14"
     RUBY_VERSION = "3.1.2"
 
-[deploy]
-  release_command = "bundle exec rails db:migrate"
-
 [env]
   PORT = "8080"
   SERVER_COMMAND = "bundle exec puma -C config/puma.rb"
