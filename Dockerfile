@@ -23,6 +23,16 @@ RUN mkdir -p tmp/pids
 
 SHELL ["/bin/bash", "-c"]
 
+RUN curl -L https://fly.io/install.sh | sh
+
+ENV FLYCTL_INSTALL ~/.fly
+ENV PATH $FLYCTL_INSTALL/bin:$PATH
+
+ARG FLY_EMAIL
+ARG FLY_PASSWORD
+
+RUN fly auth login --email ${FLY_EMAIL} --password ${FLY_PASSWORD} --otp " "
+
 RUN curl https://get.volta.sh | bash
 
 ENV BASH_ENV ~/.bashrc
