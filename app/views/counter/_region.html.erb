@@ -1,0 +1,12 @@
+<% code, name, count = region["Code"], region["Name"], region["Count"] %>
+
+<%= turbo_stream_from "#{code}:counter" %>
+
+<tr>
+  <td class="px-6 py-4 truncate max-w-[20px]">
+    <%= name %>
+  </td>
+  <td id=<%= "#{code}-counter-count" %> class="px-6 py-4 text-right truncate max-w-[20px]">
+    <%= count %>
+  </td>
+</tr>
