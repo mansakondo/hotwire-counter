@@ -10,13 +10,13 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body class="p-4">
+  <body class="p-4 text-zinc-900">
     <div class="mb-6">
       <span>Connected to <%= current_region_name %></span>
     </div>
 
-    <div class="flex flex-col items-center w-1/2 mx-auto my-0">
-      <h1 class="mb-4 text-2xl text-bold">Hotwire Counter</h1>
+    <div class="flex flex-col items-center mx-auto my-0 md:w-1/2">
+      <h1 class="mb-6 text-3xl text-bold">Hotwire Counter</h1>
       <%= yield %>
     </div>
   </body>
