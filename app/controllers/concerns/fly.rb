@@ -2,7 +2,7 @@ module Fly
   extend ActiveSupport::Concern
 
   included do
-    helper_method :current_region, :current_region_name, :regions
+    helper_method :current_region, :current_region_name
 
     def current_region
       ENV["FLY_REGION"]
@@ -21,7 +21,7 @@ module Fly
 
     def regions
       JSON
-        .parse(`fly regions list -a hotwire-counter -j`)
+        .parse(`fly regions list -a #{ENV["FLY_APP_NAME"]} -j`)
         .fetch("Regions")
     end
   end
