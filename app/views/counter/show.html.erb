@@ -1,12 +1,12 @@
 <%= turbo_stream_from "counter" %>
+<%= turbo_stream_from "users", channel: UsersCountChannel %>
 
-<div class="flex flex-col text-lg gap-2">
-  <p>
-    <span>Count:</span>
-    <span id="counter-count">
-      <%= count %>
+<div class="flex flex-col items-center mb-4 text-lg gap-2">
+  <div>
+    <span class="counter-count">
+      <%= total_counter_count %>
     </span>
-  </p>
+  </div>
 
   <div class="flex gap-2">
     <%= button_to "+", increment_path, class: "px-8 py-4 text-white bg-black rounded" %>
@@ -14,4 +14,4 @@
   </div>
 </div>
 
-<%= render "counter/regions", regions: regions %>
+<%= render "counter/regions", regions: regions, total_counter_count: total_counter_count, total_users_count: total_users_count %>

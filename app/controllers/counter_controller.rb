@@ -1,34 +1,57 @@
 class CounterController < ApplicationController
   def show
     render :show, locals: {
-      count: count.value,
+      total_counter_count: total_counter_count.value,
+      total_users_count: total_users_count.value,
       regions: regions_with_counts
     }
   end
 
   def increment
-    count.increment
+    total_counter_count.increment
 
     current_region_count.increment
 
-    broadcast
+    respond_to do |format|
+      format.turbo_stream do
+        render partial: "counter/update", locals: {
+          total_counter_count: total_counter_count.value,
+          current_region_count: current_region_count.value
+        }
 
-    redirect_to root_url
+        broadcast
+      end
+
+      format.html { redirect_to root_url }
+    end
   end
 
   def decrement
-    count.decrement
+    total_counter_count.decrement
 
     current_region_count.decrement
 
-    broadcast
+    respond_to do |format|
+      format.turbo_stream do
+        render partial: "counter/update", locals: {
+          total_counter_count: total_counter_count.value,
+          current_region_count: current_region_count.value
+        }
 
-    redirect_to root_url
+        broadcast
+      end
+
+      format.html { redirect_to root_url }
+    end
   end
 
   private
-    def count
+    def total_counter_count
       Kredis.counter "counter:count"
+    end
+
+    def total_users_count
+      Kredis.counter "users:count"
     end
 
     def current_region_count
@@ -37,8 +60,8 @@ class CounterController < ApplicationController
 
     def broadcast
       Turbo::StreamsChannel.broadcast_update_later_to "counter",
-        target: "counter-count",
-        content: count.value
+        targets: ".counter-count",
+        content: total_counter_count.value
 
       Turbo::StreamsChannel.broadcast_update_later_to "#{current_region}:counter",
         target: "#{current_region}-counter-count",
@@ -46,11 +69,17 @@ class CounterController < ApplicationController
     end
 
     def regions_with_counts
-      regions_with_counts = regions.dup
+      regions_with_counts = []
 
-      regions_with_counts.each do |region|
-        code            = region["Code"]
-        region["Count"] = find_region_count_by(code).value
+      regions.each do |region|
+        code, name = region["Code"], region["Name"]
+
+        regions_with_counts << {
+          name: name,
+          code: code,
+          counter_count: find_region_count_by(code).value,
+          users_count: find_region_users_count_by(code).value
+        }
       end
 
       regions_with_counts
@@ -58,5 +87,9 @@ class CounterController < ApplicationController
 
     def find_region_count_by(code)
       Kredis.counter "#{code}:counter:count"
+    end
+
+    def find_region_users_count_by(code)
+      Kredis.counter "#{code}:users:count"
     end
 end

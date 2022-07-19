@@ -1,12 +1,26 @@
-<% code, name, count = region["Code"], region["Name"], region["Count"] %>
+<% code, name, counter_count, users_count = region[:code], region[:name], region[:counter_count], region[:users_count] %>
 
 <%= turbo_stream_from "#{code}:counter" %>
+<%= turbo_stream_from code, "users", channel: Regional::UsersCountChannel, data: { region: code, current_region: current_region } %>
 
 <tr>
-  <td class="px-6 py-4 truncate max-w-[20px]">
+  <td class="px-6 py-4 truncate max-w-[300px]">
     <%= name %>
   </td>
-  <td id=<%= "#{code}-counter-count" %> class="px-6 py-4 text-right truncate max-w-[20px]">
-    <%= count %>
+
+  <td class="px-6 py-4 text-right">
+    <span id=<%= "#{code}-users-count" %>>
+      <%= users_count %>
+    </span>
+    <span>/</span>
+    <span class="users-count"><%= total_users_count %></span>
+  </td>
+
+  <td class="px-6 py-4 text-right">
+    <span id=<%= "#{code}-counter-count" %>>
+      <%= counter_count %>
+    </span>
+    <span>/</span>
+    <span class="counter-count"><%= total_counter_count %></span>
   </td>
 </tr>

@@ -1,12 +1,13 @@
 <div class="relative mt-4 overflow-x-auto shadow rounded-md">
-  <table class="pb-4 text-sm text-left table-auto text-zinc-500">
+  <table class="pb-4 text-sm text-left table-auto text-zinc-500 w-max">
     <thead class="text-xs uppercase text-zinc-700 bg-gray-50">
-      <th class="px-6 py-3 w-[300px]">Region</th>
-      <th class="px-6 py-3">Count</th>
+      <th class="px-6 py-3 w-[100px]">Region</th>
+      <th class="px-6 py-3 text-right">Users</th>
+      <th class="px-6 py-3 w-[100px] text-right">Count</th>
     </thead>
 
     <tbody>
-      <%= render partial: "counter/region", collection: regions %>
+      <%= render partial: "counter/region", collection: regions, locals: { total_counter_count: total_counter_count, total_users_count: total_users_count } %>
     </tbody>
   </table>
 </div>
