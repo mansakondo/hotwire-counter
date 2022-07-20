@@ -7,8 +7,6 @@ class UsersCountChannel < ApplicationCable::Channel
       stream_from stream_name
 
       users_count.increment
-
-      broadcast
     else
       reject
     end
@@ -17,19 +15,11 @@ class UsersCountChannel < ApplicationCable::Channel
   def unsubscribed
     users_count.decrement
 
-    broadcast
-
     stop_all_streams
-  end
-
-  def broadcast
-    self.class.broadcast_update_later_to "users",
-      targets: ".users-count",
-      content: users_count.value
   end
 
   private
     def users_count
-      Kredis.counter "users:count"
+      UsersCount.count
     end
 end
